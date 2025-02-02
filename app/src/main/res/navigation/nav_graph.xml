@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_counter">
+
+    <!-- Другие вкладки Bottom Navigation -->
+    <fragment
+        android:id="@+id/nav_counter"
+        android:name="com.example.ekg.CounterFragment"
+        android:label="Counter" />
+
+    <fragment
+        android:id="@+id/nav_ecg"
+        android:name="com.example.ekg.EcgFragment"
+        android:label="ECG" />
+
+    <!-- Вложенный граф для «Profile» -->
+    <navigation
+        android:id="@+id/nav_profile_graph"
+        app:startDestination="@id/profileCheckerFragment">
+
+        <!-- 1) "Промежуточный" фрагмент, проверяющий, залогинен ли пользователь -->
+        <fragment
+            android:id="@+id/profileCheckerFragment"
+            android:name="com.example.ekg.ProfileCheckerFragment"
+            android:label="Profile Checker">
+
+            <!-- Если не залогинен, идём на LoginFragment -->
+            <action
+                android:id="@+id/action_profileCheckerFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+
+            <!-- Если залогинен, идём сразу на ProfileFragment -->
+            <action
+                android:id="@+id/action_profileCheckerFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
+        </fragment>
+
+        <!-- 2) LoginFragment -->
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.example.ekg.LoginFragment"
+            android:label="Login">
+
+            <!-- Кнопка «Зарегистрироваться» → RegisterFragment -->
+            <action
+                android:id="@+id/action_loginFragment_to_registerFragment"
+                app:destination="@id/registerFragment" />
+            <!-- После успешного логина → ProfileFragment -->
+            <action
+                android:id="@+id/action_loginFragment_to_profileFragment"
+                app:destination="@id/profileFragment" />
+        </fragment>
+
+        <!-- 3) RegisterFragment -->
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.example.ekg.RegisterFragment"
+            android:label="Register">
+            <!-- После регистрации → назад на LoginFragment -->
+            <action
+                android:id="@+id/action_registerFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+        </fragment>
+
+        <!-- 4) Сам ProfileFragment -->
+        <fragment
+            android:id="@+id/profileFragment"
+            android:name="com.example.ekg.ProfileFragment"
+            android:label="Profile">
+        </fragment>
+    </navigation>
+</navigation>
